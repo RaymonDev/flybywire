@@ -50,20 +50,19 @@ By isolating the minimal functional pathway required for elevation-tuned escape,
 
 When a visual threat looms toward a fruit fly, a specialized visuomotor circuit detects the expansion and commands an evasive jump and steering maneuvers:
 
-```
-                  Visual Looming Stimulus
-                             │
-            ┌────────────────┴────────────────┐
-          LPLC2                              LC4
-    (angular size detector)           (angular velocity detector)
-    210 neurons                       104 neurons
-            │                                 │
-            ├────────────────┬────────────────┤
-            │                │                │
-            ▼                ▼                ▼
-         DNp01             DNp11            DNp02 / DNp04
-      (Giant Fiber)    (forward escape,    (backward/lateral escape,
-     Escape Trigger      dorsal-tuned)       ventral-biased)
+```mermaid
+flowchart TD
+    Stim["Visual Looming Stimulus"]
+    Stim --> LPLC2["LPLC2<br>(angular size detector)<br>210 neurons"]
+    Stim --> LC4["LC4<br>(angular velocity detector)<br>104 neurons"]
+
+    LPLC2 --> DNp01["DNp01 (Giant Fiber)<br>Escape Trigger"]
+    LPLC2 --> DNp11["DNp11<br>(forward escape, dorsal-tuned)"]
+    LPLC2 --> DNp02["DNp02 / DNp04<br>(backward/lateral escape, ventral-biased)"]
+
+    LC4 --> DNp01
+    LC4 --> DNp11
+    LC4 --> DNp02
 ```
 
 - **LPLC2**: Visual projection neurons tuned to outward optical expansion and angular size.
@@ -192,32 +191,17 @@ By instantiating the subcircuit in a persistent Brian2 network wrapper (`brain_g
 
 The 440-neuron circuit is connected to an interactive Flappy Bird simulation running in a closed sensorimotor loop:
 
-```
-    ┌────────────────────────────────────────────────────────┐
-    │                      Flappy Bird Game                  │
-    │  - Evaluates distance to upper and lower pipe walls    │
-    │  - Updates agent vertical position and velocity        │
-    └───────────────────────────┬────────────────────────────┘
-                                │ Wall Proximities
-                                ▼
-    ┌────────────────────────────────────────────────────────┐
-    │                   Sensorimotor Mapping                 │
-    │  - Upper wall proximity  ──►  Dorsal Poisson Drive     │
-    │  - Lower wall proximity  ──►  Ventral Poisson Drive    │
-    └───────────────────────────┬────────────────────────────┘
-                                │ 150 Hz Poisson Stimulus
-                                ▼
-    ┌────────────────────────────────────────────────────────┐
-    │              440-Neuron Connectome Subcircuit          │
-    │  - Steps biological LIF dynamics (Brian2, dt = 20 ms)  │
-    │  - Computes DNp11 (dorsal) & DNp02 (ventral) rates     │
-    └───────────────────────────┬────────────────────────────┘
-                                │ Differential Rate: (DNp11 - DNp02)
-                                ▼
-    ┌────────────────────────────────────────────────────────┐
-    │                     Motor Actuation                    │
-    │  - Vertical flight force applied to agent              │
-    └────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Game["<b>Flappy Bird Game</b><br>• Evaluates distance to upper and lower pipe walls<br>• Updates agent vertical position and velocity"]
+    Mapping["<b>Sensorimotor Mapping</b><br>• Upper wall proximity → Dorsal Poisson Drive<br>• Lower wall proximity → Ventral Poisson Drive"]
+    Subcircuit["<b>440-Neuron Connectome Subcircuit</b><br>• Steps biological LIF dynamics (Brian2, dt = 20 ms)<br>• Computes DNp11 (dorsal) & DNp02 (ventral) rates"]
+    Motor["<b>Motor Actuation</b><br>• Vertical flight force applied to agent"]
+
+    Game -->|"Wall Proximities"| Mapping
+    Mapping -->|"150 Hz Poisson Stimulus"| Subcircuit
+    Subcircuit -->|"Differential Rate: (DNp11 - DNp02)"| Motor
+    Motor -.->|"Flight Force"| Game
 ```
 
 ### Emergent Spatial Navigation
@@ -312,7 +296,5 @@ ffmpeg -framerate 30 -i game_frames/frame_%04d.png -pix_fmt yuv420p game.mp4
 ---
 
 <div align="center">
-
-**The connectome is the model. The wiring is the hypothesis.**
 
 </div>
