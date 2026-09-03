@@ -1,0 +1,104 @@
+# ============================================================
+# Python & Virtual Environments
+# ============================================================
+.venv/
+venv/
+env/
+ENV/
+.conda/
+env.bak/
+venv.bak/
+
+# ============================================================
+# Python Bytecode & Build Artifacts
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================================
+# Brian2 & Cython Compilation & Debug Files
+# ============================================================
+.brian/
+.cython/
+_cython/
+brian_extensions/
+*.cpp
+*.c
+brian_debug_*.log
+brian_script_*.py
+
+# ============================================================
+# Connectome Datasets & Binary / Array Dumps
+# ============================================================
+*.csv
+*.csv.gz
+*.tsv
+*.parquet
+*.npy
+*.npz
+*.pickle
+*.pkl
+*.feather
+*.h5
+*.hdf5
+*.tar.gz
+*.zip
+
+# ============================================================
+# Simulation Output & Results
+# ============================================================
+results/
+**/results/
+output/
+data/
+
+# ============================================================
+# Logs & Temporary Scratch Scripts
+# ============================================================
+*.log
+scratch/
+tmp/
+temp/
+minitest.py
+
+# ============================================================
+# Jupyter Notebooks
+# ============================================================
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ============================================================
+# IDE & Operating System Files
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+game_frames
